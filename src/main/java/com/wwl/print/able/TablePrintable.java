@@ -284,27 +284,34 @@ public class TablePrintable implements Printable, Pageable {
         graphics.setColor(Color.white);
         graphics.fillRect(0, 0, footWidth, footHeight);
 
+        String footLeftContent;
+
         //print string of foot
         if (pageFormat.getFootArea().getLeftContent() == null || pageFormat.getFootArea().getLeftContent().isEmpty()) {
-            pageFormat.getFootArea().setLeftContent(String.format("页数：%s/%s",this.getCurrentNumberOfPages(positionX, positionY),this.getNumberOfPages()));
+            footLeftContent = String.format("页数：%s/%s",this.getCurrentNumberOfPages(positionX, positionY),this.getNumberOfPages());
+        }else {
+            footLeftContent = pageFormat.getFootArea().getLeftContent();
         }
+
         graphics.setColor(Color.black);
-        graphics.drawString(pageFormat.getFootArea().getLeftContent(), footImageAbleX + 10, footImageAbleY + (footImageAbleHeight / 2 + 6));
+        graphics.drawString(footLeftContent, footImageAbleX + 10, footImageAbleY + (footImageAbleHeight / 2 + 6));
 
-
+        String footRightContent;
         if (pageFormat.getFootArea().getRightContent() == null || pageFormat.getFootArea().getRightContent().isEmpty()) {
             Date localDate = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            pageFormat.getFootArea().setRightContent("日期："+ sdf.format(localDate));
+            footRightContent = "日期："+ sdf.format(localDate);
+        }else {
+            footRightContent = pageFormat.getFootArea().getRightContent();
         }
         graphics.setColor(Color.black);
 
         switch (pageFormat.getOrientationType()){
             case Portrait:
-                graphics.drawString(pageFormat.getFootArea().getRightContent(), footImageAbleX + footImageAbleWidth - (int) (pageFormat.getFootArea().getRightContent().length() * 8.6), footImageAbleY + (footImageAbleHeight / 2 + 6));
+                graphics.drawString(footRightContent, footImageAbleX + footImageAbleWidth - (int) (footRightContent.length() * 8.6), footImageAbleY + (footImageAbleHeight / 2 + 6));
                 break;
             case Transverse:
-                graphics.drawString(pageFormat.getFootArea().getRightContent(), footImageAbleX + footImageAbleWidth - (int)(pageFormat.getFootArea().getRightContent().length() * 10.2), footImageAbleY + (footImageAbleHeight / 2 + 6));
+                graphics.drawString(footRightContent, footImageAbleX + footImageAbleWidth - (int)(footRightContent.length() * 10.2), footImageAbleY + (footImageAbleHeight / 2 + 6));
                 break;
             default:
                 break;
